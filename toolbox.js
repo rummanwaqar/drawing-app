@@ -28,8 +28,6 @@ function Toolbox() {
 		sideBarItem.id(name + "sideBarItem")
 		sideBarItem.parent('sidebar');
 		sideBarItem.mouseClicked(toolbarItemClick);
-
-
 	};
 
 	//add a tool to the tools array
