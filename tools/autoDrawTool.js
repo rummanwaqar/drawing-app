@@ -140,7 +140,11 @@ function AutoDrawTool(stencils) {
         // get image from URL
         loadImage(imageElement.src, img => {
             image(img, shapeBBox.x, shapeBBox.y, shapeBBox.w, shapeBBox.h);
+            loadPixels();
         });
+        
+        resetSuggestions();
+        resetShape();
     }
 
     let getBBoxFromShape = function(shape) {
