@@ -3,6 +3,7 @@
 var toolbox = null;
 var colourP = null;
 var helpers = null;
+let stencils = null;
 
 
 function setup() {
@@ -14,7 +15,9 @@ function setup() {
 
 	//create helper functions and the colour palette
 	helpers = new HelperFunctions();
+	stencils = helpers.loadStencils();
 	colourP = new ColourPalette();
+
 
 	//create a toolbox for storing the tools
 	toolbox = new Toolbox();
@@ -27,6 +30,7 @@ function setup() {
 	toolbox.addTool(new BucketTool(colourP));
 	toolbox.addTool(new ShapeTool());
 	toolbox.addTool(new EraserTool());
+	toolbox.addTool(new AutoDrawTool(stencils));
 	background(255);
 
 }

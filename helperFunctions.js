@@ -17,4 +17,8 @@ function HelperFunctions() {
 	select("#saveImageButton").mouseClicked(function() {
 		saveCanvas("myPicture", "jpg");
 	});
+
+	this.loadStencils = function() {
+		return loadJSON('data/stencils.json');
+	}
 }
