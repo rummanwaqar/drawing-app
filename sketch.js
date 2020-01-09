@@ -24,7 +24,7 @@ function setup() {
 	toolbox.addTool(new LineToTool());
 	toolbox.addTool(new SprayCanTool());
 	toolbox.addTool(new mirrorDrawTool());
-	toolbox.addTool(new BucketTool());
+	toolbox.addTool(new BucketTool(colourP));
 	background(255);
 
 }

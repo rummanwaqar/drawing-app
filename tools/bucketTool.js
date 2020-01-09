@@ -1,6 +1,7 @@
-function BucketTool() {
+function BucketTool(colorPalette) {
     this.icon = "assets/paintBucket.png";
     this.name = "bucketTool";
+    let myColorPalette = colorPalette;
     
     this.draw = function() {
         const mouseIsPressedInCanvas = mouseIsPressed && 
@@ -9,8 +10,10 @@ function BucketTool() {
         if (mouseIsPressedInCanvas) {
             // populate the pixels array
             loadPixels();
+            // get color from color palette
+            let colour = myColorPalette.selectedColourAsRgb();
             // apply floodFill on pixels array
-            floodFill(mouseX, mouseY, [255, 0, 0]);
+            floodFill(mouseX, mouseY, colour);
             // render new pixels array
             updatePixels();
         }
