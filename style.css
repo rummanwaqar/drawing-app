@@ -5,7 +5,9 @@ html, body {
 
 #sidebar {
 	grid-area: sidebar;
-	overflow-y: scroll;
+	overflow-y: hidden;
+	text-align: center;
+	border-bottom: #fff 5px solid;
 }
 
 #content {
@@ -21,15 +23,16 @@ html, body {
   grid-area: footer;
 }
 
-.sideBarItem{
+.sideBarItem {
+	display: inline-block;
 	max-height: 50px;
 	max-width: 50px;
-	padding:5px;
+	padding: 5px;
 }
 
 .sideBarItem img{
 	max-height: 50px;
-	max-Width:50px;
+	max-width: 50px;
 }
 
 .colourPalette{
