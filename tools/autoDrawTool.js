@@ -1,20 +1,28 @@
+// this constructor function allows the user to draw something 
+// freehand and then it suggests and replaces the user's drawing
+// with stencils. The drawing ends when user stops drawing.
+// todo: allow multiple shapes
+// stencils: json file containing categories and related svg image urls
+// stencils file is located in data/stencils.json
 function AutoDrawTool(stencils) {
     this.icon = "assets/autodraw.png";
     this.name = "autoDrawTool";
 
+    // maximum number of icons to display
     const maxIcons = 20;
-
-    let myStencils = stencils;
+    // manages mouse state
+    // pressedAt is the time the drawing started
     let previousMouseX, previousMouseY, pressedAt;
-    let currentShape;
+    // list containing user drawing
+    // format: [[x coods], [y coods], [time when cood was added]]
+    let currentShape = [];
 
+    // div with suggestion images are added
     let suggestionDiv;
+    // bbox containing the user shape (used to draw the suggested shape)
     let shapeBBox;
 
-    loadPixels();
-
-    // todo: handle multiple shapes
-
+    // todo: copied code from freehand tool. Dry this
 	this.draw = function(){
         //if the mouse is pressed inside the canvas
         const mouseIsPressedInCanvas = mouseIsPressed && 
@@ -41,8 +49,8 @@ function AutoDrawTool(stencils) {
 		}
 		//if the user has released the mouse we want to set the previousMouse values 
 		//back to -1.
-		//try and comment out these lines and see what happens!
 		else if (previousMouseX != -1) {
+            // when user releases the mouse give user the suggestions
             shapeBBox = getBBoxFromShape(currentShape);
             sendRequest(currentShape, processApiData);
 			resetShape();
@@ -71,6 +79,8 @@ function AutoDrawTool(stencils) {
         ];
     }
 
+    // sends a request to the API with shape
+    // resultCallback: called when post request is complete
     let sendRequest = function(shapes, resultCallback) {
         // todo: error handling for failed calls
         const url = 'https://inputtools.google.com/request?ime=handwriting&app=autodraw&dbg=1&cs=1&oe=UTF-8';
@@ -92,23 +102,27 @@ function AutoDrawTool(stencils) {
         );
     }
 
+    // processes the API by parsing the list of suggestions
+    // displays the suggestions in suggestions div
     let processApiData = function(response) {
         try {
             data = JSON.parse(response[1][0][3].debug_info.match(/SCORESINKS: (.*) Service_Recognize:/)[1]).map(
                 result => {
                     return {
                         name: result[0],
-                        icons: (myStencils[result[0]] || []).map(x => x.src)
+                        icons: (stencils[result[0]] || []).map(x => x.src)
                     }
                 }
             );
             setSuggestions(data);
         } catch (err) {
+            // on error resets suggetions
             resetSuggestions();
             console.log(err);
         }
     }
 
+    // takes a list of suggestions with icons and draws them on the DOM
     let setSuggestions = function(suggestions) {
         resetSuggestions();
         let iconCount = 0;
@@ -129,10 +143,15 @@ function AutoDrawTool(stencils) {
         }
     }
 
+    // clears the DOM suggestion div
     let resetSuggestions = function() {
         suggestionDiv.html('');
     }
 
+    // event handler for suggestions
+    // when a suggestion is clicked, it replaces the original
+    // drawing with svg of clicked suggestion
+    // todo: SVGs render as images and are blurry. draw them as p5 shapes
     let suggestionClicked = function(clickEvent) {
         const imageElement = clickEvent.srcElement;
         console.log(imageElement);
@@ -147,6 +166,7 @@ function AutoDrawTool(stencils) {
         resetShape();
     }
 
+    // fits a bounding box around the user's drawing
     let getBBoxFromShape = function(shape) {
         x_min = Math.min(...shape[0]);
         x_max = Math.max(...shape[0]);

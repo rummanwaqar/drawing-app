@@ -1,3 +1,5 @@
+// this constructor function allows us erase (draw with white color)
+// todo: DRY this out. copy of Freehand tool
 function EraserTool() {
     this.icon = "assets/eraser.png";
     this.name = "eraserTool";
@@ -29,7 +31,6 @@ function EraserTool() {
 		}
 		//if the user has released the mouse we want to set the previousMouse values 
 		//back to -1.
-		//try and comment out these lines and see what happens!
 		else{
 			previousMouseX = -1;
 			previousMouseY = -1;

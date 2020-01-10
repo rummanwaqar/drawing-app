@@ -1,11 +1,17 @@
+// this constructor function allows us draw shapes on the canvas
+// the user can select the shape from a dropbox
 function ShapeTool() {
     this.icon = "assets/shapes.png";
     this.name = "shapeTool";
 
-    var shapes = ["Rectangle", "Triangle", "Circle"];
-    var selectedShape = shapes[0];
-
-    var state;
+    // private variables --------
+    // available shapes
+    let shapes = ["Rectangle", "Triangle", "Circle"];
+    // current shape. changes via the dropbox DOM event handler
+    let selectedShape = shapes[0];
+    // stores the bbox of based on user iteractions
+    // type: {x: 0, y: 0, w: 0, h: 0}
+    let state = null;
     
     this.draw = function() {
         if(mouseIsPressed) {
@@ -45,10 +51,12 @@ function ShapeTool() {
         }
     }
 
+    // used to reset the options html when tool is unselected
     this.unselectTool = function() {
         select(".options").html("");
     }
 
+    // generates the DOM dropdown box with shape options
     this.populateOptions = function() {
         let shapeSelect = createSelect();
         for(let i=0; i<shapes.length; i++) {

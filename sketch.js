@@ -18,19 +18,18 @@ function setup() {
 	stencils = helpers.loadStencils();
 	colourP = new ColourPalette();
 
-
 	//create a toolbox for storing the tools
 	toolbox = new Toolbox();
 
 	//add the tools to the toolbox.
 	toolbox.addTool(new FreehandTool());
+	toolbox.addTool(new AutoDrawTool(stencils));
 	toolbox.addTool(new LineToTool());
 	toolbox.addTool(new SprayCanTool());
 	toolbox.addTool(new mirrorDrawTool());
 	toolbox.addTool(new BucketTool(colourP));
 	toolbox.addTool(new ShapeTool());
 	toolbox.addTool(new EraserTool());
-	toolbox.addTool(new AutoDrawTool(stencils));
 	background(255);
 
 }
